@@ -1,9 +1,11 @@
 package com.raysi.dtopattern.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "laptop")
+@ToString
 public class Laptop {
     @Id
     @GeneratedValue(
@@ -27,6 +30,7 @@ public class Laptop {
     private String processor;
     private String brand;
     private String model;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lunch;
     private Integer ram;
     private Integer ssd;

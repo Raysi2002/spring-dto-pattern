@@ -13,4 +13,12 @@ public class GlobalExceptionHandler extends RuntimeException {
         ErrorMessage errorMessage = new ErrorMessage(resourceNotFoundException.getErrorCode(), resourceNotFoundException.getErrorMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
     }
+
+    public ResponseEntity<ErrorMessage> invalidDataException(InvalidDataException invalidDataException){
+        ErrorMessage errorMessage = new ErrorMessage(invalidDataException.getErrorCode(), invalidDataException.getErrorMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .header("Accept-Datetime")
+                .body(errorMessage);
+    }
 }

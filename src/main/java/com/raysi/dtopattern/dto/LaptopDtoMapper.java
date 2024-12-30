@@ -4,6 +4,7 @@ package com.raysi.dtopattern.dto;
 import com.raysi.dtopattern.entity.Laptop;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.function.Function;
 
 @Service
@@ -22,3 +23,11 @@ public class LaptopDtoMapper implements Function<Laptop, LaptopDTO> {
         );
     }
 }
+//private Long id;
+//private String processor;
+//private String brand;
+//private String model;
+//private LocalDateTime lunch;
+//private Integer ram;
+//private Integer ssd;
+//private String os;
