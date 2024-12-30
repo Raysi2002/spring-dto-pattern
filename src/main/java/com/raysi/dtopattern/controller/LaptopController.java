@@ -47,6 +47,6 @@ public class LaptopController {
         }catch (Exception e){
             System.out.println("Something went wrong in Controller layer: " + e.getMessage());
         }
-        return new ResponseEntity(laptops, HttpStatus.CREATED);
+        return new ResponseEntity<>(laptops, HttpStatus.CREATED);
     }
 }
