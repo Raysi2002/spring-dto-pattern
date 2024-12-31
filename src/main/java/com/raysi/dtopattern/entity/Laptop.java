@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -30,7 +31,7 @@ public class Laptop {
     private String processor;
     private String brand;
     private String model;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @CurrentTimestamp
     private LocalDateTime lunch;
     private Integer ram;
     private Integer ssd;

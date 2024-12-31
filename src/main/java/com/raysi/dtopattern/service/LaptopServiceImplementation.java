@@ -1,6 +1,7 @@
 package com.raysi.dtopattern.service;
 
 import com.raysi.dtopattern.dto.LaptopDTO;
+import com.raysi.dtopattern.dto.LaptopUpdateDTO;
 import com.raysi.dtopattern.entity.Laptop;
 import com.raysi.dtopattern.exception.InvalidDataException;
 import com.raysi.dtopattern.exception.ResourceNotFoundException;
@@ -141,6 +142,28 @@ public class LaptopServiceImplementation implements LaptopService {
             // If an error occurs during deletion (e.g., database issue), catch the exception.
             // Throw a ResourceNotFoundException with error code 1102 indicating failure during deletion.
             throw new ResourceNotFoundException("1102", "No Laptop found with id : " + id);
+        }
+    }
+
+    @Override
+    public void updateLaptop(Long id, LaptopUpdateDTO laptopUpdateDTO) {
+        Laptop existingLaptop = laptopRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("1201", "No laptop availabe with id: " + id));
+        try {
+            if(existingLaptop.getRam() != null){
+                existingLaptop.setRam(laptopUpdateDTO.getRam());
+            }
+            if(existingLaptop.getSsd() != null){
+                existingLaptop.setSsd(laptopUpdateDTO.getSsd());
+            }
+            if(existingLaptop.getOs() != null){
+                existingLaptop.setOs(laptopUpdateDTO.getOs());
+            }
+            if(existingLaptop.getProcessor() != null){
+                existingLaptop.setProcessor(laptopUpdateDTO.getProcessor());
+            }
+        }catch (Exception e){
+            throw new RuntimeException("Something went wrong in Service layer");
         }
     }
 }

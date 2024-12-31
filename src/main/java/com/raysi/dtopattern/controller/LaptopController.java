@@ -1,6 +1,7 @@
 package com.raysi.dtopattern.controller;
 
 import com.raysi.dtopattern.dto.LaptopDTO;
+import com.raysi.dtopattern.dto.LaptopUpdateDTO;
 import com.raysi.dtopattern.entity.Laptop;
 import com.raysi.dtopattern.exception.ResourceNotFoundException;
 import com.raysi.dtopattern.service.LaptopService;
@@ -61,7 +62,7 @@ public class LaptopController {
 
     // Handles POST requests to save a list of laptops
     @PostMapping("/laptop")
-    public ResponseEntity<?> saveLaptops(@Valid @RequestBody List<Laptop> laptops){
+    public ResponseEntity<?> saveLaptops(@RequestBody List<Laptop> laptops){
         try {
             // Delegates the save operation to the service layer
             laptopService.saveLaptops(laptops);
@@ -96,6 +97,21 @@ public class LaptopController {
             // Catch any other unexpected exceptions and throw a custom ResourceNotFoundException with error code 1103
             // This ensures a structured error message in case something goes wrong in the Controller layer
             throw new ResourceNotFoundException("1103", "Something went wrong in Controller layer");
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateLaptopById(@PathVariable Long id, @RequestBody LaptopUpdateDTO laptopUpdateDTO){
+        try {
+            laptopService.updateLaptop(id, laptopUpdateDTO);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .header("Accept-Datetime")
+                    .body(laptopUpdateDTO);
+        }catch (ResourceNotFoundException e){
+            throw e;
+        }catch (Exception e){
+            throw new ResourceNotFoundException("1303", "Something went wrong in controller layer");
         }
     }
 }
