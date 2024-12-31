@@ -111,15 +111,20 @@ public class LaptopServiceImplementation implements LaptopService {
 
     @Override
     public void deleteLaptop(Long id) {
-        boolean flag = false;
-        for (Laptop laptop : laptopRepository.findAll()){
-            if(Objects.equals(laptop.getId(), id)){
-                flag = true;
-                break;
-            }
-        }
-        if(!flag){
-            throw new ResourceNotFoundException("1101", "No Laptop found with id : " + id);
+//        -------Can be replaced in a single line----------
+//        boolean flag = false;
+//        for (Laptop laptop : laptopRepository.findAll()){
+//            if(Objects.equals(laptop.getId(), id)){
+//                flag = true;
+//                break;
+//            }
+//        }
+//        if(!flag){
+//            throw new ResourceNotFoundException("1101", "No Laptop found with id : " + id);
+//        }
+
+        if(!laptopRepository.existsById(id)){
+            throw new ResourceNotFoundException("1101", "No Laptop found with id: " + id);
         }
         try {
             laptopRepository.deleteById(id);

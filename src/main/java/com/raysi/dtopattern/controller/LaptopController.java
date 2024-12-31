@@ -79,16 +79,22 @@ public class LaptopController {
     }
 
     @DeleteMapping("/laptop/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id){
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         try {
+            // Attempt to delete the laptop using the service method
             laptopService.deleteLaptop(id);
+
+            // If deletion is successful, return a 410 GONE status with a success message
             return ResponseEntity
-                    .status(HttpStatus.GONE)
-                    .header("Accept-Datetime")
-                    .body("Laptop successfully deleted with id: " + id);
-        }catch (ResourceNotFoundException e){
+                    .status(HttpStatus.GONE)  // HTTP status code 410 indicates the resource is no longer available
+                    .header("Accept-Datetime") // Optionally include a header to track the date/time of the deletion request
+                    .body("Laptop successfully deleted with id: " + id); // Body contains a success message
+        } catch (ResourceNotFoundException e) {
+            // If the ResourceNotFoundException is thrown (e.g., laptop not found), rethrow the exception to be handled globally
             throw e;
-        }catch (Exception e){
+        } catch (Exception e) {
+            // Catch any other unexpected exceptions and throw a custom ResourceNotFoundException with error code 1103
+            // This ensures a structured error message in case something goes wrong in the Controller layer
             throw new ResourceNotFoundException("1103", "Something went wrong in Controller layer");
         }
     }
