@@ -147,23 +147,41 @@ public class LaptopServiceImplementation implements LaptopService {
 
     @Override
     public void updateLaptop(Long id, LaptopUpdateDTO laptopUpdateDTO) {
+        // Fetch the existing laptop from the repository using the provided ID.
         Laptop existingLaptop = laptopRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("1201", "No laptop availabe with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("1201", "No laptop available with id: " + id));
+
         try {
-            if(existingLaptop.getRam() != null){
+            // Update the laptop's RAM if a new value is provided.
+            // Check if the new value in LaptopUpdateDTO is not null before updating.
+            if (laptopUpdateDTO.getRam() != null) {
                 existingLaptop.setRam(laptopUpdateDTO.getRam());
             }
-            if(existingLaptop.getSsd() != null){
+
+            // Update the laptop's SSD if a new value is provided.
+            // Ensure the SSD value is not null before setting the new value.
+            if (laptopUpdateDTO.getSsd() != null) {
                 existingLaptop.setSsd(laptopUpdateDTO.getSsd());
             }
-            if(existingLaptop.getOs() != null){
+
+            // Update the laptop's OS if a new value is provided.
+            // Make sure the OS value in LaptopUpdateDTO is not null.
+            if (laptopUpdateDTO.getOs() != null) {
                 existingLaptop.setOs(laptopUpdateDTO.getOs());
             }
-            if(existingLaptop.getProcessor() != null){
+
+            // Update the laptop's processor if a new value is provided.
+            // Ensure that the processor value is not null before updating.
+            if (laptopUpdateDTO.getProcessor() != null) {
                 existingLaptop.setProcessor(laptopUpdateDTO.getProcessor());
             }
-        }catch (Exception e){
-            throw new RuntimeException("Something went wrong in Service layer");
+
+            // Save the updated laptop back to the repository.
+            laptopRepository.save(existingLaptop);
+
+        } catch (Exception e) {
+            // If any error occurs during the update process, throw a runtime exception with a relevant message.
+            throw new RuntimeException("Something went wrong in Service layer", e);
         }
     }
 }

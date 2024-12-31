@@ -101,16 +101,25 @@ public class LaptopController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateLaptopById(@PathVariable Long id, @RequestBody LaptopUpdateDTO laptopUpdateDTO){
+    public ResponseEntity<?> updateLaptopById(@PathVariable Long id, @RequestBody LaptopUpdateDTO laptopUpdateDTO) {
         try {
+            // Calling the service layer to update the laptop information by ID
             laptopService.updateLaptop(id, laptopUpdateDTO);
+
+            // Returning a response indicating the laptop update was successful
+            // Status code 201 (Created) is used here, but typically 200 (OK) might be more appropriate for update operations
             return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .header("Accept-Datetime")
-                    .body(laptopUpdateDTO);
-        }catch (ResourceNotFoundException e){
+                    .status(HttpStatus.CREATED)  // HTTP status indicating successful creation, consider using HttpStatus.OK for updates
+                    .header("Accept-Datetime")  // You can add a custom header to indicate the datetime of the update, though it’s not set here
+                    .body(laptopUpdateDTO);  // Returning the updated LaptopUpdateDTO in the response body
+
+        } catch (ResourceNotFoundException e) {
+            // If the laptop resource with the provided ID is not found, the exception is rethrown
             throw e;
-        }catch (Exception e){
+
+        } catch (Exception e) {
+            // Handling any other unexpected errors that may occur
+            // A custom error message is passed along with a specific error code ("1303")
             throw new ResourceNotFoundException("1303", "Something went wrong in controller layer");
         }
     }
