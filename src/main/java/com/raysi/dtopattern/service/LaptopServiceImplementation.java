@@ -111,24 +111,35 @@ public class LaptopServiceImplementation implements LaptopService {
 
     @Override
     public void deleteLaptop(Long id) {
-//        -------Can be replaced in a single line----------
-//        boolean flag = false;
-//        for (Laptop laptop : laptopRepository.findAll()){
-//            if(Objects.equals(laptop.getId(), id)){
-//                flag = true;
-//                break;
-//            }
-//        }
-//        if(!flag){
-//            throw new ResourceNotFoundException("1101", "No Laptop found with id : " + id);
-//        }
+        // -------Can be replaced in a single line----------
+        // The original code manually checks if the laptop with the given ID exists by iterating through all laptops.
+        // It sets a flag to true if the laptop is found, and throws a ResourceNotFoundException if not.
+        // This logic can be replaced by the more efficient existsById method from the repository.
 
-        if(!laptopRepository.existsById(id)){
+        // boolean flag = false;
+        // for (Laptop laptop : laptopRepository.findAll()){
+        //     if(Objects.equals(laptop.getId(), id)){
+        //         flag = true;
+        //         break;
+        //     }
+        // }
+        // if(!flag){
+        //     throw new ResourceNotFoundException("1101", "No Laptop found with id : " + id);
+        // }
+
+        // Check if the laptop with the given ID exists in the repository using existsById.
+        // This method is more efficient than manually iterating through all laptops.
+        if (!laptopRepository.existsById(id)) {
+            // If the laptop does not exist, throw a ResourceNotFoundException with error code 1101.
             throw new ResourceNotFoundException("1101", "No Laptop found with id: " + id);
         }
+
         try {
+            // Attempt to delete the laptop by its ID using the repository method deleteById.
             laptopRepository.deleteById(id);
-        }catch (Exception e){
+        } catch (Exception e) {
+            // If an error occurs during deletion (e.g., database issue), catch the exception.
+            // Throw a ResourceNotFoundException with error code 1102 indicating failure during deletion.
             throw new ResourceNotFoundException("1102", "No Laptop found with id : " + id);
         }
     }
