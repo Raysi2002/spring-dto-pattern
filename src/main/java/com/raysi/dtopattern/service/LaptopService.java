@@ -12,4 +12,5 @@ public interface LaptopService {
     List<LaptopDTO> fetchAllLaptop();
     Optional<LaptopDTO> fetchLaptop(Long id);
     void saveLaptops(List<Laptop> laptop);
+    void deleteLaptop(Long id);
 }

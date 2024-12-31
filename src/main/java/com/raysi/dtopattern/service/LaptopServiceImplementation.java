@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 // Marks this class as a service component in Spring's context
@@ -105,6 +106,25 @@ public class LaptopServiceImplementation implements LaptopService {
         } catch (Exception e) {
             // Catch unexpected errors and wrap them in a runtime exception
             throw new RuntimeException("Something went wrong in Service Layer");
+        }
+    }
+
+    @Override
+    public void deleteLaptop(Long id) {
+        boolean flag = false;
+        for (Laptop laptop : laptopRepository.findAll()){
+            if(Objects.equals(laptop.getId(), id)){
+                flag = true;
+                break;
+            }
+        }
+        if(!flag){
+            throw new ResourceNotFoundException("1101", "No Laptop found with id : " + id);
+        }
+        try {
+            laptopRepository.deleteById(id);
+        }catch (Exception e){
+            throw new ResourceNotFoundException("1102", "No Laptop found with id : " + id);
         }
     }
 }

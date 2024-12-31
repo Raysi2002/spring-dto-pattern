@@ -77,4 +77,17 @@ public class LaptopController {
         // Returns a response with the list of laptops and HTTP status 201 (CREATED)
         return new ResponseEntity<>(laptops, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/laptop/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id){
+        try {
+            laptopService.deleteLaptop(id);
+            return ResponseEntity
+                    .status(HttpStatus.GONE)
+                    .header("Accept-Datetime")
+                    .body("Laptop successfully deleted with id: " + id);
+        }catch (Exception e){
+            throw new ResourceNotFoundException("1103", "Something went wrong in Controller layer");
+        }
+    }
 }
