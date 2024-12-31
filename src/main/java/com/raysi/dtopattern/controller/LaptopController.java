@@ -86,6 +86,8 @@ public class LaptopController {
                     .status(HttpStatus.GONE)
                     .header("Accept-Datetime")
                     .body("Laptop successfully deleted with id: " + id);
+        }catch (ResourceNotFoundException e){
+            throw e;
         }catch (Exception e){
             throw new ResourceNotFoundException("1103", "Something went wrong in Controller layer");
         }
