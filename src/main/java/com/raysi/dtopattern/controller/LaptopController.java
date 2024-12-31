@@ -8,12 +8,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class LaptopController {
@@ -33,6 +31,19 @@ public class LaptopController {
                     .body(laptopDTOS);
         }catch (Exception e){
             throw new  ResourceNotFoundException("801", "Something went wrong in controller layer!");
+        }
+    }
+
+    @GetMapping("laptop/{id}")
+    public ResponseEntity<Optional<LaptopDTO>> fetchLaptopById(@PathVariable Long id){
+        Optional<LaptopDTO> laptopDTO = laptopService.fetchLaptop(id);
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .header("Accept-Datetime")
+                    .body(laptopDTO);
+        }catch (Exception e){
+            throw new ResourceNotFoundException("1003", "Something went wrong in Controller layer");
         }
     }
 

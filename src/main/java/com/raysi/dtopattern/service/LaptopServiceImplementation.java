@@ -46,10 +46,24 @@ public class LaptopServiceImplementation implements LaptopService{
 
     @Override
     public Optional<LaptopDTO> fetchLaptop(Long id) {
-//        Optional<LaptopDTO> laptopDTO = laptopRepository
-//                .findById(id).get();
-
-        return Optional.empty();
+        Optional<LaptopDTO> laptop = laptopRepository.findById(id)
+                .map(laptop1 -> new LaptopDTO(
+                        laptop1.getId(),
+                        laptop1.getProcessor(),
+                        laptop1.getBrand(),
+                        laptop1.getModel(),
+                        laptop1.getLunch(),
+                        laptop1.getRam(),
+                        laptop1.getSsd()
+                ));
+        if(laptop.isEmpty()){
+            throw new ResourceNotFoundException("1001", "No data found for id " + id);
+        }
+        try {
+            return laptop;
+        }catch (Exception e){
+            throw new ResourceNotFoundException("1002", "Something went wrong in service layer");
+        }
     }
 
     @Override
